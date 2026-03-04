@@ -10,3 +10,5 @@ export const registerUser = (formData: FormData) =>
   axios.post("/users/register", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+
+export const logoutUser = () => axios.post("/users/logout");
