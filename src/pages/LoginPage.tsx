@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { loginUser } from "../api/auth.api";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +27,7 @@ const LoginPage = () => {
       const { accessToken } = res.data.data;
       localStorage.setItem("accessToken", accessToken);
       alert("Login Successful!");
+      navigate("/");
     } catch (error: any) {
       console.log(error.response?.data);
       alert(error.response?.data?.message || "Login failed");

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { registerUser } from "../api/auth.api";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
+
+  const navigate = useNavigate()
+
   const [form, setForm] = useState({
     fullname: "",
     email: "",
@@ -34,7 +38,9 @@ const RegisterPage = () => {
 
       if (res.status === 201) {
         alert("Registration Successful. Please go to login.");
+        navigate("/login")
       }
+
     } catch (error) {
       alert("Something went wrong!");
       console.log(error);
