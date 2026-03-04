@@ -3,7 +3,7 @@ import logoNoBg from "../assets/logos/logo-nobg.png";
 
 const MainLayout = () => {
   return (
-    <div className="min-h-screen bg-neutral-800 text-white">
+    <div className="min-h-screen bg-linear-to-br from-black via-black to-[#1a0f2e] text-white">
       <header className="h-14 border-b border-gray-800 flex items-center px-2">
         <img src={logoNoBg} alt="Vidtube" className="h-24" />
       </header>
