@@ -1,57 +1,59 @@
-import { useState, useEffect } from "react";
 import logoNoBg from "../assets/logos/logo-nobg.png";
-import { getCurrentUser } from "../api/homefeed.api";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../api/auth.api";
+import { useAuth } from "../utils/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState<any>(null);
 
-  const getUser = async () => {
-    try {
-      const res = await getCurrentUser();
-      setCurrentUser(res.data.data);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
+  const { currentUser, setCurrentUser } = useAuth();
 
   const handleLogout = async () => {
     try {
       const res = await logoutUser();
-      console.log("Logout response: ", res.data);
+      console.log("Logout response:", res.data);
+
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      alert("Logout  successfull.");
+
+      setCurrentUser(null);
+
       navigate("/login");
     } catch (error: any) {
       console.log(error.response?.data);
-      alert(error.response?.data?.message || "Login failed");
+      alert(error.response?.data?.message || "Logout failed");
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
   return (
     <header className="h-14 border-b border-gray-800 flex justify-between items-center px-4">
-      <img src={logoNoBg} alt="Vidtube" className="h-24" />
-      <div className="flex items-center justify-center gap-7 mx-3">
+      <img
+        src={logoNoBg}
+        alt="Vidtube"
+        className="h-24 cursor-pointer"
+        onClick={() => navigate("/")}
+      />
+
+      <div className="flex items-center justify-center gap-6">
         {currentUser && (
           <>
-            <h1>{currentUser.username}</h1>
+            <h1 className="text-white font-medium">{currentUser.username}</h1>
+
             <img
-              src={currentUser.avatar.replace("http://", "https://")}
+              src={currentUser.avatar?.replace("http://", "https://")}
               alt="Avatar"
-              className="rounded-full w-10 h-10 border-2 border-white border-double"
+              className="rounded-full w-10 h-10 border-2 border-white"
             />
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="cursor-pointer px-3 py-1 border border-gray-600 rounded"
+            >
+              Logout
+            </button>
           </>
         )}
-        <button type="button" onClick={handleLogout} className="cursor-pointer">
-          Logout
-        </button>
       </div>
     </header>
   );
