@@ -1,31 +1,43 @@
-import { logoutUser } from "../api/auth.api";
-import { useNavigate } from "react-router-dom";
-import { getCurrentUser } from "../api/homefeed.api";
 import { useState, useEffect } from "react";
+import { getAllVideos } from "../api/homefeed.api";
 
 const Homepage = () => {
-  const navigate = useNavigate();
-
-  const [currentUser, setCurrentUser] = useState<any>(null);
-
-  const getUser = async () => {
-    try {
-      const res = await getCurrentUser();
-      console.log(res);
-      setCurrentUser(res.data.data);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    getUser();
+    const getFeedVideos = async () => {
+      try {
+        const res = await getAllVideos();
+        setVideos(res.data.data);
+      } catch (err: any) {
+        console.log(err.message);
+      }
+    };
+
+    getFeedVideos();
   }, []);
 
-
+  console.log(videos);
 
   return (
-    <div>Homefeed</div>
+    <div className="grid sm:grid-cols-3 grid-cols-1 gap-4">
+      {videos.map((video) => (
+        <div
+          key={video._id}
+          className="flex justify-center items-center flex-col"
+        >
+          <img
+            src={video.thumbnail.replace("http://", "https://")}
+            alt={video.title}
+            className="h-64 w-64"
+          />
+          <div className="flex justify-between items-center w-full px-7">
+            <p className="text-white">{video.title}</p>
+            <p className="text-white">{video.owner.username}</p>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 

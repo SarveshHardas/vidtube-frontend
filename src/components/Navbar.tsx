@@ -1,12 +1,13 @@
 import logoNoBg from "../assets/logos/logo-nobg.png";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../api/auth.api";
-import { useAuth } from "../utils/AuthContext";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "../api/homefeed.api";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const { currentUser, setCurrentUser } = useAuth();
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   const handleLogout = async () => {
     try {
@@ -25,6 +26,19 @@ const Navbar = () => {
     }
   };
 
+  const getUser = async () => {
+    try {
+      const res = await getCurrentUser();
+      setCurrentUser(res.data.data);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [currentUser]);
+
   return (
     <header className="h-14 border-b border-gray-800 flex justify-between items-center px-4">
       <img
@@ -37,7 +51,7 @@ const Navbar = () => {
       <div className="flex items-center justify-center gap-6">
         {currentUser && (
           <>
-            <h1 className="text-white font-medium">{currentUser.username}</h1>
+            <h1 className="text-white font-medium">{currentUser.fullname}</h1>
 
             <img
               src={currentUser.avatar?.replace("http://", "https://")}
