@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "../pages/Homepage";
+import VideoPage from "../pages/VideoPage";
 import MainLayout from "../layouts/MainLayout";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -32,6 +33,14 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute>
                 <Homepage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/video/:videoId"
+            element={
+              <ProtectedRoute>
+                <VideoPage />
               </ProtectedRoute>
             }
           />

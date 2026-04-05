@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await logoutUser();
     } catch {
-      // Even if the API call fails, clear local state
     } finally {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
