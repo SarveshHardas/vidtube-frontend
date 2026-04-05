@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { loginUser } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeClosed } from "lucide-react";
+import { useAuth } from "../utils/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { fetchUser } = useAuth();
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -25,13 +27,13 @@ const LoginPage = () => {
         password,
       });
 
-      console.log("Login response: ", res.data);
       const { accessToken } = res.data.data;
       localStorage.setItem("accessToken", accessToken);
-      alert("Login Successful!");
+
+      await fetchUser();
+
       navigate("/");
     } catch (error: any) {
-      console.log(error.response?.data);
       alert(error.response?.data?.message || "Login failed");
     }
   };
@@ -48,16 +50,12 @@ const LoginPage = () => {
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="email"
-            name=""
-            id=""
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
             className="w-full text-gray-400 border-2 focus-none outline-none border-neutral-700/60 rounded-md px-3 py-4"
           />
           <input
             type="text"
-            name=""
-            id=""
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
             className="w-full text-gray-400 border-2 focus-none outline-none border-neutral-700/60 rounded-md px-3 py-4"

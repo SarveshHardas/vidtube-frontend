@@ -1,43 +1,15 @@
 import logoNoBg from "../assets/logos/logo-nobg.png";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../api/auth.api";
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "../api/homefeed.api";
+import { useAuth } from "../utils/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
-
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const { currentUser, logout } = useAuth();
 
   const handleLogout = async () => {
-    try {
-      const res = await logoutUser();
-      console.log("Logout response:", res.data);
-
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-
-      setCurrentUser(null);
-
-      navigate("/login");
-    } catch (error: any) {
-      console.log(error.response?.data);
-      alert(error.response?.data?.message || "Logout failed");
-    }
+    await logout();
+    navigate("/login");
   };
-
-  const getUser = async () => {
-    try {
-      const res = await getCurrentUser();
-      setCurrentUser(res.data.data);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    getUser();
-  }, [currentUser]);
 
   return (
     <header className="h-14 border-b border-gray-800 flex justify-between items-center px-4">
