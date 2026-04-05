@@ -17,7 +17,7 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("Submitting");
+
     e.preventDefault();
     if (!avatar) {
       alert("Avatar is required!");
@@ -35,7 +35,7 @@ const RegisterPage = () => {
 
     try {
       const res = await registerUser(formData);
-      console.log(res.data);
+
 
       if (res.status === 201) {
         alert("Registration Successful. Please go to login.");
@@ -43,7 +43,7 @@ const RegisterPage = () => {
       }
     } catch (error) {
       alert("Something went wrong!");
-      console.log(error);
+
     }
   };
 
