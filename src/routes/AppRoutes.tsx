@@ -6,6 +6,8 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ProtectedRoute from "./ProtectedRoutes";
 import PublicRoute from "./PublicRoute";
+import { UploadVideo } from "../pages/UploadVideo";
+import { CreatePlaylist } from "../pages/CreatePlaylist";
 
 const AppRoutes = () => {
   return (
@@ -41,6 +43,22 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute>
                 <VideoPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/videos"
+            element={
+              <ProtectedRoute>
+                <UploadVideo />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/playlist"
+            element={
+              <ProtectedRoute>
+                <CreatePlaylist />
               </ProtectedRoute>
             }
           />
