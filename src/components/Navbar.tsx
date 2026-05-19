@@ -1,7 +1,7 @@
 import logoNoBg from "../assets/logos/logo-nobg.png";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/AuthContext";
-import { List, Plus, Search, Video, X } from "lucide-react";
+import { List, Plus, Search, Video} from "lucide-react";
 import { useState } from "react";
 
 const Navbar = () => {
