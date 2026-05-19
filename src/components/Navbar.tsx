@@ -1,7 +1,7 @@
 import logoNoBg from "../assets/logos/logo-nobg.png";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/AuthContext";
-import { List, Plus, Video } from "lucide-react";
+import { List, Plus, Search, Video, X } from "lucide-react";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -33,6 +33,15 @@ const Navbar = () => {
         onClick={() => navigate("/")}
       />
 
+      <div className="w-full max-w-1/3">
+        {currentUser && (
+          <div className="border border-gray-800 rounded-3xl w-full mx-5 px-7 py-2 flex items-center gap-2">
+            <input type="text" className="w-full bg-transparent border-none outline-none text-gray-800 placeholder-gray-500" placeholder="Search" />
+            <div className="cursor-pointer"><Search className="text-gray-500" /></div>
+          </div>
+        )}
+      </div>
+
       <div className="flex items-center justify-center gap-6">
         {currentUser && (
           <>
@@ -51,7 +60,7 @@ const Navbar = () => {
               </>
             )}
             <button className="flex gap-2 cursor-pointer" onClick={() => setShowCreateList(!showCreateList)}>
-              <Plus/>Create
+              <Plus />Create
             </button>
 
             <h1 className="text-white font-medium">{currentUser.fullname}</h1>
